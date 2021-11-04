@@ -5,7 +5,7 @@ binmode STDOUT;
 $| = 1;
 
 $length = "\xFF\xFF";
-$buffer = "\x41" * 20000;
+$buffer = "\x41"x20000;
 
 my $maki =
 "\x46\x47" .                              # Magic
