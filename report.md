@@ -8,7 +8,7 @@ The purpose of this programming assignment is to develop and execute a local buf
 
 ## Setup
 
-This exploit requires the Windows 7 VM provided on the PA4 instructions page. It is assumed that the Winamp and netcat programs are installed on this VM. The first step is to extract the ZIP file holding our exploit contents and moving the mcvcore.maki file to the "C:\Program Files\Winamp\Skins\Bento\scripts" directory on the Windows VM.
+This exploit requires the Windows 7 VM provided on the PA4 instructions page. It is assumed that the Winamp and netcat programs are installed on this VM. The first step is to extract the ZIP file holding our exploit contents and moving the mcvcore.maki file to the "C:\Program Files\Winamp\Skins\Bento\scripts" directory on the Windows VM. Optionally, to recreate the MAKI file from the exploit script, one can run `perl exploit.pl > mcvcore.maki`.
 
 ## Running the Exploit
 
